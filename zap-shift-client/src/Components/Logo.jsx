@@ -1,9 +1,11 @@
 import React from "react";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router";
 
 const Logo = () => {
+  const navigate = useNavigate()
   return (
-    <div className="flex items-end">
+    <div onClick={() => navigate('/')} className="flex items-end cursor-pointer">
         {/* logo */}
       <img src={logo} alt="logo" />
       {/* logo name */}

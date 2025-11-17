@@ -2,7 +2,7 @@ import React from 'react';
 
 const MyContainer = ({children, className}) => {
     return (
-        <section className={`w-11/12 mx-auto ${className}`}>
+        <section className={`max-w-[1600px] px-[3%] mx-auto ${className}`}>
             {children}
         </section>
     );

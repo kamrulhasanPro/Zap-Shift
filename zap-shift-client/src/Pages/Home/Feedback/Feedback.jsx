@@ -2,11 +2,17 @@ import React, { useEffect, useState } from "react";
 import icon from "../../../assets/customer-top.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import FeedbackCard from "./FeedbackCard";
-import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
+import {
+  Autoplay,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import { FaArrowRight } from "react-icons/fa";
 
 const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -31,30 +37,54 @@ const Feedback = () => {
       </div>
 
       {/* feedback */}
-      <Swiper 
-      effect={'coverflow'}
+      
+      <Swiper
+        effect={"coverflow"}
         // grabCursor={true}
-        modules={[EffectCoverflow, Pagination, Autoplay]}
-        centeredSlides={true}
-        loop={true}
-        slidesPerView={3}
+        modules={[EffectCoverflow, Navigation, Pagination, Autoplay]}
+        centeredSlides={false}
+        loop={false}
+        // slidesPerView={3}
+        breakpoints={
+          {
+            480:{slidesPerView: 1},
+            800:{slidesPerView: 3},
+            // 1080:{slidesPerView: 3},
+          }
+        }
         coverflowEffect={{
-          rotate: 50,
+          // rotate: 50,
           stretch: 0,
           depth: 100,
           modifier: 1,
-        //   slideShadows: true,
+          scale: 0.75,
+          // slideShadows: true,
         }}
-        pagination={{clickable: true}}
-        autoplay={{delay: 1500}}
-      
+        pagination={{ clickable: true, el: ".custom-pagination", dynamicMainBullets: true}}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        // Navigation arrows
+        navigation={{ nextEl: ".custom-next", prevEl: ".custom-prev" }}
+        className="mt-5"
       >
         {feedbacks.map((feedback) => (
-            <SwiperSlide key={feedback.id}>
-                <FeedbackCard feedback={feedback} />
-            </SwiperSlide>
+          <SwiperSlide key={feedback.id}>
+            <FeedbackCard feedback={feedback} />
+          </SwiperSlide>
         ))}
+
+        <div className="custom-pagination flex items-center justify-center gap-2 mt-5"></div>
       </Swiper>
+        {/* pagination */}
+        
+        
+        <div className="flex items-center justify-center gap-10 mt-4">
+          <div className="custom-prev bg-base-200 hover:bg-primary transition rounded-full text-secondary p-2 cursor-pointer inline-block">
+          <FaArrowRight className="rotate-180" />
+        </div>
+        <div className="custom-next bg-base-200 hover:bg-primary transition rounded-full text-secondary p-2 cursor-pointer inline-block">
+          <FaArrowRight />
+        </div>
+        </div>
     </section>
   );
 };

@@ -4,7 +4,7 @@ import { MdArrowOutward } from "react-icons/md";
 const ArrowIcon = () => {
   return (
     <>
-      <div className="bg-secondary rounded-full text-primary p-2 cursor-pointer inline-block">
+      <div className="bg-secondary rounded-full text-primary w-10 h-10 cursor-pointer flex items-center justify-center">
         <MdArrowOutward size={26} />
       </div>
     </>

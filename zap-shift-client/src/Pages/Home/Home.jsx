@@ -8,6 +8,7 @@ import Brands from "./Brands/Brands";
 import Features from "./Features/Features";
 import Merchant from "./Merchant/Merchant";
 import Feedback from "./Feedback/Feedback";
+import Frequency from "./Frequency/Frequency";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <hr className="border-t-2 border-gray-400 border-dashed mt-16" />
       <Merchant />
       <Feedback />
+      <Frequency />
     </section>
   );
 };
