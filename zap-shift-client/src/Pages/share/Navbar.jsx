@@ -3,16 +3,29 @@ import Logo from "../../Components/logo";
 import MyLink from "../../Components/MyLink";
 import { MdArrowOutward } from "react-icons/md";
 import ArrowIcon from "../../Components/ArrowIcon";
+import useAuth from "../../Hooks/useAuth";
+import { Link } from "react-router";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const navList = <>
-  <MyLink to={'/service'}>Service</MyLink>
-  <MyLink to={'/coverage'}>Coverage</MyLink>
-  <MyLink to={'/about-us'}>About Us</MyLink>
-  <MyLink to={'/pricing'}>Pricing</MyLink>
-  <MyLink to={'/blog'}>Blog</MyLink>
-  <MyLink to={'/contact'}>Contact</MyLink>
-  </>
+  const { user, logOutUser } = useAuth();
+
+  const handleLogOut = () => {
+    logOutUser()
+      .then(() => toast.info("LogOut Successful"))
+      .catch((err) => toast.error(err.code));
+  };
+
+  const navList = (
+    <>
+      <MyLink to={"/service"}>Service</MyLink>
+      <MyLink to={"/coverage"}>Coverage</MyLink>
+      <MyLink to={"/about-us"}>About Us</MyLink>
+      <MyLink to={"/pricing"}>Pricing</MyLink>
+      <MyLink to={"/blog"}>Blog</MyLink>
+      <MyLink to={"/contact"}>Contact</MyLink>
+    </>
+  );
   return (
     <div className="navbar bg-base-200 px-8 py-4 shadow-sm rounded-2xl z-50">
       <div className="navbar-start">
@@ -42,17 +55,26 @@ const Navbar = () => {
           </ul>
         </div>
         {/* logo */}
-        <Logo/>
+        <Logo />
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu-horizontal gap-5 px-1">
-          {navList}
-        </ul>
+        <ul className="menu-horizontal gap-5 px-1">{navList}</ul>
       </div>
       <div className="navbar-end gap-2">
-        <button className="my_btn_outline !rounded-xl">Sign in</button>
-        <button className="my_btn">Sign Up</button>
-        <ArrowIcon/>
+        {user ? (
+          <button
+            onClick={handleLogOut}
+            className="btn bg-red-500 hover:bg-red-600 text-white"
+          >
+            LogOut
+          </button>
+        ) : (
+          <Link to={"/login"} className="my_btn_outline !rounded-xl">
+            Sign in
+          </Link>
+        )}
+        <button className="my_btn">Be A Rider</button>
+        <ArrowIcon />
       </div>
     </div>
   );

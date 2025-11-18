@@ -3,6 +3,7 @@ import { AuthContext } from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -37,6 +38,12 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   };
 
+  // reset password
+  const resetPassword = (email) => {
+    setLoader(true)
+    return sendPasswordResetEmail(auth, email)
+  }
+
   // store user
   useEffect(() => {
     // mount
@@ -54,6 +61,7 @@ const AuthProvider = ({ children }) => {
     loginUser,
     logOutUser,
     otherAuthUser,
+    resetPassword,
     user,
     loader,
     setLoader,

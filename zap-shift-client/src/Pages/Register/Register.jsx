@@ -1,23 +1,71 @@
 import React from "react";
 import uploadProfile from "../../assets/image-upload-icon.png";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import GoogleProvider from "../../Components/GoogleProvider";
 import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-toastify";
+import { updateProfile } from "firebase/auth";
+import axios from "axios";
 
 const Register = () => {
+  const { registerUser, logOutUser } = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
-
   // my register submit
   const handleRegister = (data) => {
     console.log(data);
-    reset();
+    const profileImg = data.photo[0];
+    console.log(profileImg);
+
+    registerUser(data.email, data.password)
+      .then((res) => {
+        // convert file that formData
+        const formData = new FormData();
+        formData.append("image", profileImg);
+
+        // upload profile for get url
+        axios
+          .post(
+            `https://api.imgbb.com/1/upload?key=${
+              import.meta.env.VITE_IMAGE_HOST
+            }`,
+            formData
+          )
+
+          .then((result) => {
+            console.log(result.data);
+            if (result.data) {
+              // get profile url
+              const photoURL = result.data.data.display_url;
+              const user = res.user;
+
+              // update name and profile
+              if (user) {
+                updateProfile(user, { displayName: data.name, photoURL }).then(
+                  () => {
+                    // initial logout and reset form
+                    logOutUser().then();
+                    toast.success("Successfully register. please login");
+                    // reset();
+                    navigate("/login");
+                  }
+                );
+              }
+            }
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => toast.error(err.code));
   };
-  
+  console.log(errors);
   return (
     <>
       {/* title */}
@@ -30,7 +78,24 @@ const Register = () => {
 
       {/* register form */}
       <form onSubmit={handleSubmit(handleRegister)}>
-        <img src={uploadProfile} alt="" />
+        {/* Profile */}
+        <div className="flex flex-col mt-3">
+          <label htmlFor="photo" className="font-medium">
+            <img src={uploadProfile} alt="" />
+          </label>
+
+          <input
+            id="photo"
+            type="file"
+            accept="image/*"
+            className="file-input mt-2"
+            {...register("photo", { required: true })}
+          />
+
+          {errors.photo?.type === "required" && (
+            <p className="text-red-500">Profile is required.</p>
+          )}
+        </div>
 
         {/* Name */}
         <div className="flex flex-col mt-3">

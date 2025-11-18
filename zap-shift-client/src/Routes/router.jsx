@@ -8,6 +8,7 @@ import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import Forget from "../Pages/Forget/Forget";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         Component: Register
+      },
+      {
+        path: '/forget',
+        Component: Forget
       },
     ]
   }
