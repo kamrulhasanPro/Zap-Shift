@@ -9,6 +9,8 @@ import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Forget from "../Pages/Forget/Forget";
+import AddParcel from "../Pages/AddParcel/AddParcel";
+import PrivetRoute from "./PrivetRoute";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,15 @@ export const router = createBrowserRouter([
         Component: AboutUs,
       },
       {
+        path: "/pricing",
+        element: (
+          <PrivetRoute>
+            <AddParcel />
+          </PrivetRoute>
+        ),
+        loader: () => fetch("/warehouses.json"),
+      },
+      {
         path: "/*",
         Component: NotFoundPage,
       },
@@ -37,21 +48,21 @@ export const router = createBrowserRouter([
 
   // auth Layout
   {
-    path: '/',
+    path: "/",
     Component: AuthLayout,
     children: [
       {
-        path: '/login',
-        Component: Login
+        path: "/login",
+        Component: Login,
       },
       {
-        path: '/register',
-        Component: Register
+        path: "/register",
+        Component: Register,
       },
       {
-        path: '/forget',
-        Component: Forget
+        path: "/forget",
+        Component: Forget,
       },
-    ]
-  }
+    ],
+  },
 ]);
