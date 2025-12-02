@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  /* themes: light --default, dark --prefersdark; */
+  themes: light --default;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #caeb66;
+  --color-secondary: #03373d;
+  --color-secondary-content: #606060;
+  --color-base-100: #eaeced;
+  --color-base-200: #ffffff;
+}
+
+/* all design font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  font-family: "Urbanist", sans-serif;
+}
+
+.font-inter{
+    font-family: "Inter", sans-serif;
+}
+
+/* button */
+.my_btn {
+  @apply btn btn-primary !rounded-xl text-secondary;
+}
+
+.my_btn_outline {
+  @apply btn;
+}
+
+.swiper-pagination-bullet {
+  @apply !w-5 !rounded-lg transition-all z-50;
+}
+
+.swiper-pagination-bullet-active {
+  @apply !bg-primary !w-10 !rounded-lg transition-all;
+}
+
+.my_input {
+  @apply py-2 px-3 rounded-md border border-[#CBD5E1] outline-none placeholder:text-[#94A3B8] mt-1
+}
